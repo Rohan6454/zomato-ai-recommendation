@@ -1,0 +1,182 @@
+[
+  {
+    "scenario": "budget-friendly-banashankari-north-indian",
+    "preferences": {
+      "location_city": "Banashankari",
+      "location_area": null,
+      "max_budget": 500,
+      "budget_bucket": "any",
+      "cuisines": [
+        "North Indian"
+      ],
+      "min_rating": 3.5,
+      "extras": []
+    },
+    "count": 8,
+    "avg_rating": 4.125,
+    "avg_cost_for_two": 368.75,
+    "top": [
+      {
+        "rank": 1,
+        "name": "Ayodhya Upachar",
+        "rating": 4.3,
+        "cost_for_two": 200.0,
+        "cuisines": [
+          "South Indian",
+          "North Indian",
+          "Chinese",
+          "Street Food"
+        ],
+        "explanation": "It is popular for North Indian cuisine. It has 734 votes, have a great meal!!"
+      },
+      {
+        "rank": 2,
+        "name": "Mini Punjabi Dhaba",
+        "rating": 4.2,
+        "cost_for_two": 350.0,
+        "cuisines": [
+          "North Indian"
+        ],
+        "explanation": "It is popular for North Indian cuisine. It has 325 votes, have a great meal!!"
+      },
+      {
+        "rank": 3,
+        "name": "Faasos",
+        "rating": 4.2,
+        "cost_for_two": 500.0,
+        "cuisines": [
+          "North Indian",
+          "Biryani",
+          "Fast Food"
+        ],
+        "explanation": "It is popular for North Indian cuisine. It has 415 votes, have a great meal!!"
+      },
+      {
+        "rank": 4,
+        "name": "Anna Kuteera",
+        "rating": 4.0,
+        "cost_for_two": 450.0,
+        "cuisines": [
+          "South Indian",
+          "North Indian",
+          "Chinese"
+        ],
+        "explanation": "It is popular for North Indian cuisine. It has 771 votes, have a great meal!!"
+      },
+      {
+        "rank": 5,
+        "name": "Bengaluru Coffee House",
+        "rating": 4.1,
+        "cost_for_two": 300.0,
+        "cuisines": [
+          "South Indian",
+          "North Indian",
+          "Chinese",
+          "Street Food"
+        ],
+        "explanation": "It is popular for North Indian cuisine. It has 201 votes, have a great meal!!"
+      }
+    ]
+  },
+  {
+    "scenario": "family-style-btm-indian",
+    "preferences": {
+      "location_city": "Btm",
+      "location_area": null,
+      "max_budget": 800,
+      "budget_bucket": "any",
+      "cuisines": [
+        "Indian"
+      ],
+      "min_rating": 4.0,
+      "extras": []
+    },
+    "count": 0,
+    "avg_rating": null,
+    "avg_cost_for_two": null,
+    "top": []
+  },
+  {
+    "scenario": "italian-jp-nagar-mid-budget",
+    "preferences": {
+      "location_city": "Jp Nagar",
+      "location_area": null,
+      "max_budget": 1200,
+      "budget_bucket": "any",
+      "cuisines": [
+        "Italian"
+      ],
+      "min_rating": 3.5,
+      "extras": []
+    },
+    "count": 6,
+    "avg_rating": 4.166666666666667,
+    "avg_cost_for_two": 641.6666666666666,
+    "top": [
+      {
+        "rank": 1,
+        "name": "Onesta",
+        "rating": 4.4,
+        "cost_for_two": 600.0,
+        "cuisines": [
+          "Pizza",
+          "Cafe",
+          "Italian"
+        ],
+        "explanation": "It is popular for Italian cuisine. It has 4410 votes, you can be sure that you'll enjoy this restaurant #Zomato's Choice."
+      },
+      {
+        "rank": 2,
+        "name": "Dr. Sheesha",
+        "rating": 4.2,
+        "cost_for_two": 800.0,
+        "cuisines": [
+          "Cafe",
+          "Chinese",
+          "Continental",
+          "Italian"
+        ],
+        "explanation": "It is popular for Italian cuisine. It has 1466 votes, you can be sure that you'll enjoy this restaurant #Zomato's Choice."
+      },
+      {
+        "rank": 3,
+        "name": "TAB - Take A Break",
+        "rating": 4.1,
+        "cost_for_two": 550.0,
+        "cuisines": [
+          "Cafe",
+          "Continental",
+          "Italian"
+        ],
+        "explanation": "It is popular for Italian cuisine. It has 523 votes, have a great meal!!"
+      },
+      {
+        "rank": 4,
+        "name": "Crafted Plate",
+        "rating": 4.2,
+        "cost_for_two": 600.0,
+        "cuisines": [
+          "Cafe",
+          "Asian",
+          "Burger",
+          "Continental",
+          "Italian",
+          "Salad"
+        ],
+        "explanation": "It is popular for Italian cuisine. It has 249 votes, have a great meal!!"
+      },
+      {
+        "rank": 5,
+        "name": "Skyline Pizzeria",
+        "rating": 4.0,
+        "cost_for_two": 600.0,
+        "cuisines": [
+          "Cafe",
+          "Bakery",
+          "Italian"
+        ],
+        "explanation": "It is popular for Italian cuisine. It has 769 votes, have a great meal!!"
+      }
+    ]
+  }
+]

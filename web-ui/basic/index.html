@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zomato AI - Basic UI</title>
+    <style>
+      body { font-family: Arial, sans-serif; margin: 0; background: #f5f7fb; color: #111; }
+      .wrap { max-width: 1100px; margin: 0 auto; padding: 16px; }
+      .grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+      @media (min-width: 900px) { .grid { grid-template-columns: 320px 1fr; } }
+      .card { background: #fff; border-radius: 10px; padding: 14px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+      label { display: block; margin-bottom: 10px; font-size: 14px; }
+      input, select, textarea, button { width: 100%; margin-top: 4px; padding: 9px; border: 1px solid #d1d5db; border-radius: 8px; }
+      button { background: #2563eb; color: #fff; border: 0; cursor: pointer; font-weight: 600; }
+      button:disabled { background: #93c5fd; cursor: not-allowed; }
+      .row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .msg { padding: 10px; border-radius: 8px; margin-bottom: 10px; }
+      .error { background: #fee2e2; color: #991b1b; }
+      .info { background: #e0f2fe; color: #0c4a6e; }
+      .rec { border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; margin-bottom: 10px; }
+      .rec h3 { margin: 0 0 8px; font-size: 16px; }
+      .muted { color: #6b7280; margin: 0 0 6px; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>AI-Powered Restaurant Recommendation - Basic UI</h1>
+      <div class="grid">
+        <form id="prefs-form" class="card">
+          <h2>Preferences</h2>
+          <label>API Base URL
+            <input id="api-url" value="http://127.0.0.1:8000" />
+          </label>
+          <label>Locality
+            <select id="location-city" required>
+              <option value="">Select locality</option>
+            </select>
+          </label>
+          <label>Max Budget (Cost for two)
+            <input id="max-budget" type="number" min="0" step="50" placeholder="1200" />
+          </label>
+          <label>Cuisines (comma-separated)
+            <input id="cuisines" placeholder="Italian, Chinese" />
+          </label>
+          <div class="row">
+            <label>Minimum Rating
+              <input id="min-rating" type="number" min="0" max="5" step="0.5" value="3.5" />
+            </label>
+          </div>
+          <label>Notes
+            <textarea id="notes" rows="3" placeholder="Any additional preferences"></textarea>
+          </label>
+          <button id="submit-btn" type="submit">Get Recommendations</button>
+        </form>
+
+        <section class="card">
+          <h2>Results</h2>
+          <div id="status"></div>
+          <div id="results"></div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById("prefs-form");
+      const statusEl = document.getElementById("status");
+      const resultsEl = document.getElementById("results");
+      const submitBtn = document.getElementById("submit-btn");
+      const localitySelect = document.getElementById("location-city");
+
+      const toList = (s) => s.split(",").map((x) => x.trim()).filter(Boolean);
+
+      async function loadLocalities() {
+        const base = document.getElementById("api-url").value.trim();
+        try {
+          const resp = await fetch(`${base}/localities`);
+          if (!resp.ok) throw new Error(`Failed to load localities: ${resp.status}`);
+          const data = await resp.json();
+          localitySelect.innerHTML =
+            '<option value="">Select locality</option>' +
+            data.map((x) => `<option value="${x}">${x}</option>`).join("");
+          if (data.includes("Banashankari")) {
+            localitySelect.value = "Banashankari";
+          }
+        } catch (err) {
+          statusEl.innerHTML = `<div class="msg error">${String(err.message || err)}</div>`;
+        }
+      }
+
+      document.getElementById("api-url").addEventListener("change", loadLocalities);
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        statusEl.innerHTML = '<div class="msg info">Loading recommendations...</div>';
+        resultsEl.innerHTML = "";
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Loading...";
+
+        const payload = {
+          location_city: document.getElementById("location-city").value.trim(),
+          max_budget: document.getElementById("max-budget").value
+            ? Number(document.getElementById("max-budget").value)
+            : undefined,
+          cuisines: toList(document.getElementById("cuisines").value),
+          min_rating: Number(document.getElementById("min-rating").value || 0),
+          notes: document.getElementById("notes").value.trim() || undefined
+        };
+        const base = document.getElementById("api-url").value.trim();
+
+        try {
+          const resp = await fetch(`${base}/recommendations`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+
+          if (!resp.ok) {
+            const errBody = await resp.text();
+            throw new Error(`HTTP ${resp.status}: ${errBody}`);
+          }
+          const data = await resp.json();
+          statusEl.innerHTML = `<div class="msg info">Received ${data.length} recommendation(s).</div>`;
+          if (!data.length) {
+            resultsEl.innerHTML = '<div class="msg info">No recommendations found. Try broader filters.</div>';
+            return;
+          }
+          resultsEl.innerHTML = data.map((r) => `
+            <article class="rec">
+              <h3>#${r.rank} ${r.restaurant_name}</h3>
+              <p class="muted">Rating: ${r.rating ?? "N/A"} | Cost for two: ${r.estimated_cost_for_two ?? "Not listed"}</p>
+              <p><strong>Cuisines:</strong> ${(r.cuisines || []).join(", ") || "N/A"}</p>
+              <p><strong>Location:</strong> ${r.location_city}${r.location_area ? ", " + r.location_area : ""}</p>
+              <p><strong>Why:</strong> ${r.explanation}</p>
+            </article>
+          `).join("");
+        } catch (err) {
+          statusEl.innerHTML = `<div class="msg error">${String(err.message || err)}</div>`;
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Get Recommendations";
+        }
+      });
+
+      loadLocalities();
+    </script>
+  </body>
+  </html>
+

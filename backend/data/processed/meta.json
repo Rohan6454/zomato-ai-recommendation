@@ -1,0 +1,9 @@
+{
+  "dataset_id": "ManikaSaini/zomato-restaurant-recommendation",
+  "split": "train",
+  "budget_thresholds": {
+    "low_max": 300.0,
+    "medium_max": 550.0
+  },
+  "restaurant_count": 51696
+}
